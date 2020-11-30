@@ -29,6 +29,20 @@ def draw_boxes(image, boxes, mode, color=(255, 255, 255), thickness=1):
     return canvas
 
 
+def draw_points(image, points, color=(255, 255, 255), radius=1):
+    if len(points) == 0:
+        return image
+    canvas = image.copy()
+    height, width, _ = image.shape
+    if points.max() < 2:
+        shape = np.array([image.shape[1], image.shape[0]])
+        points *= shape
+    for point in points.astype('int32'):
+        x, y = point
+        cv2.circle(canvas, (x, y), radius=radius, color=color, thickness=-1)
+    return canvas
+
+
 def show_image(*images, width=None, col=None, wait=0, title=None, destroy=False):
     if title is None:
         title = 'image'
@@ -220,3 +234,4 @@ def non_max_suppression(scores, bounding_boxes, threshold=.5, method='union'):
         indices = np.where(overlap <= threshold)[0]
         order = order[indices + 1]
     return bounding_boxes[keep], scores[keep]
+
