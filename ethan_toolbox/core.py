@@ -32,6 +32,10 @@ def draw_boxes(image, boxes, mode, color=(255, 255, 255), thickness=1):
 def draw_points(image, points, color=(255, 255, 255), radius=1):
     if len(points) == 0:
         return image
+
+    if not isinstance(points, np.ndarray):
+        points = np.array(points)
+
     canvas = image.copy()
     height, width, _ = image.shape
     if points.max() < 2:
@@ -141,6 +145,20 @@ def convert_box_range(bounding_boxes, image_shape, mode):
         boxes[:, 3] *= height
         boxes = np.floor(boxes).astype('int')
     return boxes
+
+
+def convert_points_range(points, image_shape, mode):
+    available_modes = ["absolute2relative", 'relative2absolute']
+    if mode not in available_modes:
+        raise TypeError(f"[convert_box_range] mode has to be in {available_modes}")
+    shape = image_shape[:2]
+    points = points.copy().astype('float')
+    if mode == 'absolute2relative':
+        points /= shape
+    else:
+        points *= shape
+        points = points.astype('int')
+    return points
 
 
 def crop_from_boxes(image, boxes, image_size):
