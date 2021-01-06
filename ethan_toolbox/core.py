@@ -152,13 +152,13 @@ def convert_points_range(points, image_shape, mode):
     if mode not in available_modes:
         raise TypeError(f"[convert_box_range] mode has to be in {available_modes}")
     shape = image_shape[:2]
-    points = points.copy().astype('float')
+    p = points.copy().astype('float')
     if mode == 'absolute2relative':
-        points /= shape
+        p /= shape
     else:
-        points *= shape
-        points = points.astype('int')
-    return points
+        p *= shape
+        p = p.astype('int')
+    return p
 
 
 def crop_from_boxes(image, boxes, image_size):
