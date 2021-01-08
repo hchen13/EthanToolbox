@@ -55,6 +55,7 @@ def show_image(*images, width=None, col=None, wait=0, title=None, destroy=False)
         if width is not None:
             image = imutils.resize(image, width=width)
         cv2.imshow(title, image)
+        cv2.moveWindow(title, 20, 20)
         key = cv2.waitKey(wait) & 0xff
         if destroy:
             cv2.destroyAllWindows()
@@ -70,6 +71,7 @@ def show_image(*images, width=None, col=None, wait=0, title=None, destroy=False)
     montages = imutils.build_montages(images, (_width, _width), (col, row))
     for montage in montages:
         cv2.imshow(title, montage)
+        cv2.moveWindow(title, 20, 20)
         cv2.waitKey(wait)
         if destroy:
             cv2.destroyAllWindows()
