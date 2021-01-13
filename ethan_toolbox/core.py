@@ -150,10 +150,15 @@ def convert_box_range(bounding_boxes, image_shape, mode):
 
 
 def convert_points_range(points, image_shape, mode):
+    """
+    convert between absolute and relative (proportional) coordinates
+    :param points: Nx2 array of (x, y) coordinates
+    :param image_shape: array of [height, width, [channel]]
+    """
     available_modes = ["absolute2relative", 'relative2absolute']
     if mode not in available_modes:
         raise TypeError(f"[convert_box_range] mode has to be in {available_modes}")
-    shape = image_shape[:2]
+    shape = image_shape[:2][::-1]   # shape = (width, height)
     p = points.copy().astype('float')
     if mode == 'absolute2relative':
         p /= shape
