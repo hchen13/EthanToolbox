@@ -1,1 +1,1 @@
-from .core import *
+from .image_funcs import *
